@@ -1,0 +1,133 @@
+# AI-Teacher-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI-Werse | GNA University</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; min-height: 100vh; }
+    .container { max-width: 900px; margin: auto; padding: 20px; text-align: center; }
+    .header { padding: 20px; }
+    .logo { width: 80px; animation: float 3s infinite; }
+    .title { font-size: 2.5rem; margin: 10px 0; }
+    .subtitle { font-size: 1.2rem; opacity: 0.9; }
+    .robot { width: 200px; margin: 20px auto; }
+    .card { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin: 15px 0; backdrop-filter: blur(10px); }
+    .countdown { font-size: 2rem; font-weight: bold; color: #00ff88; }
+    .btn { background: #00ff88; color: #000; padding: 15px 30px; border: none; border-radius: 50px; font-size: 1.2rem; margin: 10px; cursor: pointer; }
+    .btn:hover { background: #00cc66; }
+    .quiz { margin-top: 30px; display: none; }
+    .options button { display: block; width: 100%; margin: 10px 0; padding: 15px; background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 10px; }
+    .options button.correct { background: #00ff88; color: #000; }
+    .options button.wrong { background: #ff4444; }
+    footer { margin-top: 50px; font-size: 0.9rem; opacity: 0.7; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://gnauniversity.edu.in/images/logo.png" class="logo" alt="GNA">
+      <h1 class="title">AI-Werse</h1>
+      <p class="subtitle">Build Smarter Software using AI</p>
+      <p>Organized by School of Computational Sciences & CSI</p>
+    </div>
+
+    <img src="https://i.ibb.co/9hL2kJ8/robot-ai.png" class="robot" alt="AI Robot">
+
+    <div class="card">
+      <p>Date: <strong>13th November 2025</strong></p>
+      <p>Time: <strong>10:00 AM - 1:00 PM</strong></p>
+      <p>Venue: <strong>Lab 307 B</strong></p>
+      <div class="countdown" id="countdown">Loading...</div>
+    </div>
+
+    <div class="card">
+      <h3>Code with AI | Win Certificates</h3>
+      <p>Use GitHub Copilot, ChatGPT, etc.</p>
+      <p>Open for: BCA, BSc IT, MCA</p>
+    </div>
+
+    <button class="btn" onclick="startQuiz()">Start Practice Quiz</button>
+    <a href="https://forms.gle/your-form-link" target="_blank" class="btn">Register Now</a>
+
+    <!-- QUIZ SECTION -->
+    <div class="quiz" id="quiz">
+      <h3>Practice: C & Web Dev</h3>
+      <p id="question"></p>
+      <div class="options" id="options"></div>
+      <p>Score: <span id="score">0</span></p>
+    </div>
+
+    <footer>
+      <p>Faculty: 7508000449 | Student: 9814405252</p>
+      <p>Limited Seats! Register Fast!</p>
+    </footer>
+  </div>
+
+  <script>
+    // COUNTDOWN
+    const eventDate = new Date("2025-11-13T10:00:00");
+    setInterval(() => {
+      const now = new Date();
+      const diff = eventDate - now;
+      if (diff > 0) {
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        document.getElementById("countdown").innerHTML = 
+          `${days}d ${hours}h ${mins}m ${secs}s`;
+      } else {
+        document.getElementById("countdown").innerHTML = "Event Started!";
+      }
+    }, 1000);
+
+    // QUIZ DATA
+    const questions = [
+      { q: "main() returns?", o: ["void","int","char","float"], a: 1 },
+      { q: "HTML heading tag?", o: ["<p>","<h1>","<div>","<img>"], a: 1 },
+      { q: "CSS full form?", o: ["Color Style Sheet","Cascading Style Sheets","Computer Style","None"], a: 1 }
+    ];
+    let current = 0, score = 0;
+
+    function startQuiz() {
+      document.getElementById("quiz").style.display = "block";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[current];
+      document.getElementById("question").innerHTML = q.q;
+      const opts = document.getElementById("options");
+      opts.innerHTML = "";
+      q.o.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.innerHTML = opt;
+        btn.onclick = () => checkAnswer(i, btn);
+        opts.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected, btn) {
+      const correct = questions[current].a;
+      if (selected === correct) {
+        score += 10;
+        btn.classList.add("correct");
+      } else {
+        btn.classList.add("wrong");
+        document.querySelectorAll(".options button")[correct].classList.add("correct");
+      }
+      document.getElementById("score").innerHTML = score;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) showQuestion();
+        else alert("Quiz Over! Score: " + score);
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
