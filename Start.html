@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Teacher - Tera Apna Guru</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: sans-serif; }
+    body { background: linear-gradient(135deg, #667eea, #764ba2); color: white; display: flex; justify-content: center; padding: 20px; min-height: 100vh; }
+    .container { background: rgba(0,0,0,0.3); padding: 30px; border-radius: 15px; width: 100%; max-width: 500px; text-align: center; }
+    h1 { color: #00ff88; font-size: 2.5rem; margin-bottom: 20px; }
+    input, select, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: none; }
+    button { background: #00ff88; color: black; font-weight: bold; cursor: pointer; }
+    .hidden { display: none; }
+    .options button { background: rgba(255,255,255,0.2); margin: 5px 0; width: 100%; padding: 10px; border-radius: 8px; }
+    .options button.correct { background: #00ff88; color: black; }
+    .options button.wrong { background: #ff4444; }
+    .hint { color: #00ff88; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="login">
+    <h1>AI Teacher</h1>
+    <input type="text" id="name" placeholder="Tera Naam">
+    <input type="number" id="age" placeholder="Teri Umar">
+    <select id="lang">
+      <option value="en">English</option>
+      <option value="hi">हिंदी</option>
+      <option value="pa">ਪੰਜਾਬੀ</option>
+    </select>
+    <button onclick="startQuiz()">Shuru Kar!</button>
+  </div>
+
+  <div class="container hidden" id="quiz">
+    <h1>Level <span id="level">1</span></h1>
+    <p>Score: <span id="score">0</span></p>
+    <p id="question"></p>
+    <div id="options" class="options"></div>
+    <input type="text" id="fill" class="hidden" placeholder="Jawab likh...">
+    <button id="submitFill" class="hidden" onclick="checkFill()">Submit</button>
+    <p id="hint" class="hint"></p>
+  </div>
+
+  <script>
+    let lang = 'en', level = 1, score = 0, qIndex = 0;
+
+    const questions = [
+      { q: { en: "main() returns?", hi: "main() क्या देता है?", pa: "main() ਕੀ ਦਿੰਦਾ?" }, type: "mcq", o: ["void","int"], a: 1, hint: "int" },
+      { q: { en: "HTML heading tag?", hi: "HTML हेडिंग टैग?", pa: "HTML ਹੈੱਡਿੰਗ?" }, type: "mcq", o: ["<p>","<h1>"], a: 1, hint: "<h1>" }
+    ];
+
+    function startQuiz() {
+      lang = document.getElementById('lang').value;
+      document.getElementById('login').classList.add('hidden');
+      document.getElementById('quiz').classList.remove('hidden');
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      if (qIndex >= questions.length) { alert("Done! Score: " + score); return; }
+      const q = questions[qIndex];
+      document.getElementById('level').innerText = level;
+      document.getElementById('score').innerText = score;
+      document.getElementById('question').innerText = q.q[lang] || q.q.en;
+      document.getElementById('hint').innerText = "";
+      document.getElementById('fill').classList.add('hidden');
+      document.getElementById('submitFill').classList.add('hidden');
+
+      const opts = document.getElementById('options');
+      opts.innerHTML = "";
+      if (q.type === "mcq") {
+        q.o.forEach((opt, i) => {
+          const btn = document.createElement('button');
+          btn.innerText = opt;
+          btn.onclick = () => checkAnswer(i, btn, q.a, q.hint);
+          opts.appendChild(btn);
+        });
+      } else {
+        document.getElementById('fill').classList.remove('hidden');
+        document.getElementById('submitFill').classList.remove('hidden');
+      }
+    }
+
+    function checkAnswer(selected, btn, correct, hint) {
+      if (selected === correct) { score += 10; btn.classList.add('correct'); }
+      else { btn.classList.add('wrong'); document.getElementById('hint').innerText = "Hint: " + hint; }
+      setTimeout(() => { qIndex++; loadQuestion(); }, 1500);
+    }
+
+    function checkFill() {
+      const ans = document.getElementById('fill').value.trim();
+      if (ans.toLowerCase() === "hello") { score += 10; alert("Correct!"); }
+      setTimeout(() => { qIndex++; loadQuestion(); }, 1500);
+    }
+  </script>
+
+</body>
+</html>
