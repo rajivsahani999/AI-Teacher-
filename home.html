@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Teacher - Tera Apna Coding Guru</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: linear-gradient(135deg, #667eea, #764ba2); color: white; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .container { max-width: 500px; width: 100%; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    h1 { font-size: 2.5rem; color: #00ff88; text-align: center; margin-bottom: 20px; }
+    input, select, button { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 1rem; }
+    input, select { background: rgba(255,255,255,0.2); color: white; }
+    button { background: #00ff88; color: #000; font-weight: bold; cursor: pointer; }
+    button:hover { background: #00cc66; }
+    .hidden { display: none; }
+    .quiz-container { text-align: center; }
+    .options button { background: rgba(255,255,255,0.2); margin: 8px; padding: 12px; border-radius: 10px; }
+    .options button.correct { background: #00ff88; color: #000; }
+    .options button.wrong { background: #ff4444; }
+    .motivation { font-size: 1.3rem; font-style: italic; color: #00ff88; margin: 20px 0; }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="loginForm">
+    <h1>AI Teacher</h1>
+    <input type="text" id="name" placeholder="Tera Naam" required>
+    <input type="number" id="age" placeholder="Teri Umar" min="10" max="50" required>
+    <select id="interest" required>
+      <option value="">Coding mein Interest?</option>
+      <option>Beginner</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
+    <select id="why" required>
+      <option value="">Kyun Sikhna Chahta Hai?</option>
+      <option>Job ke liye</option>
+      <option>Project banane</option>
+      <option>Shauq hai</option>
+    </select>
+    <select id="future" required>
+      <option value="">Future Plan?</option>
+      <option>Software Engineer</option>
+      <option>Web Developer</option>
+      <option>Freelancer</option>
+    </select>
+    <select id="lang" required>
+      <option value="">Bhasha Choose Kar</option>
+      <option value="en">English</option>
+      <option value="hi">हिंदी</option>
+      <option value="pa">ਪੰਜਾਬੀ</option>
+    </select>
+    <button onclick="startQuiz()">Shuru Kar!</button>
+  </div>
+
+  <div class="container hidden" id="quiz">
+    <h1 id="levelTitle">Level 1</h1>
+    <p id="score">Score: 0</p>
+    <img id="qimg" src="" style="max-width:200px; margin:15px; display:none;">
+    <p id="question"></p>
+    <div id="options"></div>
+    <input type="text" id="fill" class="hidden" placeholder="Jawab likh...">
+    <button id="submitFill" class="hidden" onclick="checkFill()">Submit</button>
+    <p id="hint" style="color:#00ff88; margin:10px;"></p>
+    <p id="motivation" class="motivation hidden"></p>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
